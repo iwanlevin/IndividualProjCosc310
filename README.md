@@ -1,6 +1,6 @@
 # Assignment 3 - An Interactive Conversational Agent
 
-This part of the Project was developed by Amritpal Aujla.
+This part of the Project is completed by Amritpal Aujla.
 ## Description
 
 This Project is an addition to the previous A3 assignment. The goal of this project is to enhance the chatbot by implementing more API's.
