@@ -15,6 +15,8 @@ from chatbot import sentiment
 from nltk.corpus import wordnet
 #nltk.download(quiet = True)
 
+import wikipedia
+
 
 #This the class of the chatbot which reads both positive and negative quotes from a file and places them into
 #a list. When the user enters an input, the bot traverses the users' input to check if
@@ -25,6 +27,7 @@ from nltk.corpus import wordnet
 
 
 class ChatBot():
+
 
     out = nltk.text.ContextIndex([word.lower( ) for word in nltk.corpus.brown.words( )])
 
@@ -83,11 +86,32 @@ class ChatBot():
         return retList
 
 
+
+
+
+
+    
+            
+
+        
+
+
     def botResponse(self, userInput):
         userInput = userInput.lower()   #convert text to lowercase
         reasonableResponse = ["I'm sorry, I didn't quite understand what you just typed.","Sorry I'm not capable talking about that right now.",
                                       "Your choice of discussion is out of my range.", "I didn't get that could you try again?",
                                       "Unfortunealy I don't recognize what your trying to tell me."]
+
+        if "wiki" in userInput:
+            
+            try:
+                    word = userInput.partition("wiki")[2]
+                    return wikipedia.summary(word, sentences=4)
+            except Exception as e:
+                    print(e)
+            return """Sorry, what you typed is too ambiguous or you typed it wrong. If your are trying to use wikipedia try "wiki _____" """
+
+            
                                       
         potentialAdjectives = ['happy','sad','lazy','tired','angry','lonely','bad','lost', 'hurt']
 
@@ -101,6 +125,10 @@ class ChatBot():
             for k in range(len(synList)):
                 if (synList[k] in userInput):
                     userInput = userInput +' '+potentialAdjectives[i]
+
+
+            #for wiki if there is the word confused or any synonom to confused, or the word wiki in user input go to wiki class
+                    
 
         sent = sentiment.classify(userInput)
         if sent == "Positive":
@@ -167,8 +195,11 @@ class ChatBot():
                     indexOfQuote = self.sortIndexList(similarityScoresList)  #this gives us the indices of the most similar to least similar quotes
                     indexOfQuote = indexOfQuote[1:]
                     if similarityScoresList[indexOfQuote[0]] != 0.00:       #if there negQuotes similar to users' input it outputs most similar quote
-                        self.uotes.remove(z)                       #otherwise, it outputs that it does not understand users' input
+                        #self.quotes.remove(z)                       #otherwise, it outputs that it does not understand users' input
                         return response + self.negQuotes[indexOfQuote[0]]
                     self.negQuotes.remove(z)
                 return response + ' ' + random.choice(reasonableResponse)
+
+    
+        
 
