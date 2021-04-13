@@ -1,14 +1,12 @@
-# Assignment 3 - An Interactive Conversational Agent
+# Individual Project - An Interactive Conversational Agent Enhanced 
 
 This part of the Project is completed by Amritpal Aujla.
 ## Description
 
 This Project is an addition to the previous A3 assignment. The goal of this project is to enhance the chatbot by implementing more API's.
 
-This conversational bot was developed entirely in Python using the Natural Language Processing library, Natural Language Toolkit(NLTK).
-
 The program is made up of two classes: chatbot and main
->chatbot is the class that can has all the attributes of the chat bot and its methods
+>chatbot is the class that has all the attributes of the chat bot and its methods
 
 >main class is where a chatbot object gets created and is run to extract quotes from file as  
 >well as running a loop to continuously ask the user for input with a loop in the class until  
@@ -23,6 +21,12 @@ Open up command prompt and type the following:
 
 `pip install -U scikit-learn` 
 
+To use the wikipedia and googletrans api you have to run the following 2 commands in Command Prompt:
+  
+  `pip install wikipedia`
+  
+  `pip install googletrans`
+
 You should then open up a Python interactive console (IDLE) and download all nltk packages by:
 
 `import nltk`  
@@ -36,42 +40,30 @@ Afterwards, you may run the main.pyw file and the bot should work accordingly.
 
 ## New features
 
-POS tagging: Using nltk's POS tagging based on stanford's toolkit, this feature takes a word and finds similar words based on context and grammar.
-Some words just aren't available in the prewritten text for the chatbot's replies. This feature allows for words that aren't in the replies but are close enough to some aspect that the chatbot can reply to, so the chatbot assumes the user was talking about the new converted word and replies accordingly.
+Wikipedia API: The way this newly added feature works is the user will type 'wiki' in their input and whatever comes after 'wiki' will be used to search the broad database of
+wikipedia and return a summary of what is being searched. I have also limited the summary to be 4 sentences, otherwise the user will have to do a lot of reading. To prevent unexpected errors I have used a try and except block, while also relaying a message on how the user should use the feature if the feature is being used incorrectly.
 
-Example:  
-You: crazy  
-Calm Bot: Solution: if you are feeling sad, do something that makes you happy.
+Ex: 
+  You: wiki pizza
+  Calm Bot: Pizza (Italian: [ˈpittsa], Neapolitan: [ˈpittsə]) is a savory dish of Italian origin consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and often various other ingredients (such as anchovies, mushrooms, onions, olives, pineapple, meat, etc.), which is then baked at a high temperature, traditionally in a wood-fired oven. A small pizza is sometimes called a pizzetta. A person who makes pizza is known as a pizzaiolo.
+In Italy, pizza served in formal settings, such as at a restaurant, is presented unsliced, and is eaten with the use of a knife and fork.
+  
+  You: Can you do wiki cricket
+  Calm Bot: Cricket is a bat-and-ball game played between two teams of eleven players on a field at the centre of which is a 22-yard (20-metre) pitch with a wicket at each end, each comprising two bails balanced on three stumps. The batting side scores runs by striking the ball bowled at the wicket with the bat (and running between the wickets), while the bowling and fielding side tries to prevent this (by preventing the ball from leaving the field, and getting the ball to either wicket) and dismiss each batter (so they are "out"). Means of dismissal include being bowled, when the ball hits the stumps and dislodges the bails, and by the fielding side either catching the ball after it is hit by the bat and before it hits the ground, or hitting a wicket with the ball before a batter can cross the crease in front of the wicket. When ten batters have been dismissed, the innings ends and the teams swap roles.
+  
+  You: How can I use wiki
+  Calm Bot: Sorry, what you typed is too ambiguous or you typed it wrong. If your are trying to use wikipedia try "wiki _____"
+  
+GoogelTrans API: The way this feature works is the user will type something like "translate x to language x". The chatBot recognizes that the user is wanting to translate something, so it takes evreything in between translate and the second last word in the string which is "to" and uses this picked up message and translates it to the last word in the string, which will be the desired language. I imported recognized expression to help find the message needing to be translated, and also used the split() method to find out what language to translate the message in.
 
-The word "crazy" is not available in our text file, but since it is close to the words sad and mad, the bot had a response for these similar words and was able to answer.
-
-Spell check: Using PorterStemmer, simple spelling mistakes such as typing "anxieti" instead of "anxiety" can be corrected by removing suffixes from both the response and the reply when checking for similarities. This way a large number of spelling mistakes that involve the end of the word being mispelt or grammatically incorrect can be caught and replied to properly.
-
-Example:  
-You: depressioning  
-Calm Bot: Depression can sometimes be overwhelming, just know that you are not alone.
-
-It recognized the depressioning is the same as depression and responded correctly.
-
-Sentiment: Using the sentiment analysis tutorial for Python from https://do.co/3tPTa2w I analysed the quotes we had
-from A2 and categorized them using the sentiment model based on negative or positive sentiments and put them in according 
-text files. After that it was implemented in the ChatBot's botResponse function to classify the sentiment of the user's input
-and based on whether it was positive or negative, it would output the most similar quote to the user's input from the available
-responses.
-
-Example:  
-You: i am unhappy  
-*internally calm bot recognizes this as a negative sentiment statement*  
-Calm Bot: I am here to help you get better.
-
-Synonom Recognition: This was implememtned as the following. I created a list of adjectives that is common when talking to a psychiatrist, then used wordnet to create a 
-list of synonoms for each potential adjective used. The bot will check the user input to see if it contains any of the potenital adjectives or any of their synonoms. Laslty
-if there is a synonom found in the input, whichever potential adjective the synonom is linked to is added behind the scenes to the user input, so this way its similarity
-score is increased when being compared to the quotes files.
-
-Example:  
-You: im feeling banal  
-Calm bot: if you are feeling tired, drink lots of water and have a hearty meal.  
-You : im feeling unenergized  
-Calm bot: if you are feeling lazy, go workout.  
-***NOTE: the words banal and unenergized are nowhere to be found in quotes files, but the bot recognizes the synonom and shoots a relavent response***
+Ex:
+    You: translate I love snowboarding to french
+    Calm Bot: j'aime le snowboard
+    
+    You: Can you help me translate Im not feeling so well to spanish
+    Calm Bot: no me siento tan bien
+    
+    You: translate I love to study to the language french
+    Calm Bot: Sorry, what you typed has a mistake in it. If your are trying to use translator try "translate _____ to ___" 
+    
+    
