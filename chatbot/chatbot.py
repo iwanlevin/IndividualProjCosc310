@@ -16,6 +16,9 @@ from nltk.corpus import wordnet
 #nltk.download(quiet = True)
 
 import wikipedia
+import googletrans
+from googletrans import Translator
+import re
 
 
 #This the class of the chatbot which reads both positive and negative quotes from a file and places them into
@@ -27,6 +30,7 @@ import wikipedia
 
 
 class ChatBot():
+
 
 
     out = nltk.text.ContextIndex([word.lower( ) for word in nltk.corpus.brown.words( )])
@@ -110,6 +114,23 @@ class ChatBot():
             except Exception as e:
                     print(e)
             return """Sorry, what you typed is too ambiguous or you typed it wrong. If your are trying to use wikipedia try "wiki _____" """
+
+
+        if "translate" in userInput:
+            detector = Translator()
+
+            try:
+                    
+                    message = re.search('translate (.*)to', userInput)
+                    destLanguage = userInput.split("to ")[-1]
+                    
+                    return detector.translate(message.group(1), dest= destLanguage).text
+                    
+                    
+            except Exception as e:
+                    print(e)
+                    
+            return """Sorry, what you typed has a mistake in it. If your are trying to use translator try "translate _____ to ___" """
 
             
                                       
